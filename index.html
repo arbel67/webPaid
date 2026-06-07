@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EncomnyEssentials Paid Version - Premium Minecraft Economy & Essentials Plugin</title>
+  <meta name="description" content="Download encomnyessentials paid version, the ultimate Spigot/Paper Minecraft plugin. Complete economy, custom infusions, player orders, shards, essentials, and admin dashboards.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+
+    :root {
+      /* Colors */
+      --bg-primary: #0a0b10;
+      --bg-secondary: #121420;
+      --bg-tertiary: #1b1e30;
+      --bg-glass: rgba(18, 20, 32, 0.7);
+      --border-glass: rgba(255, 255, 255, 0.06);
+      
+      --color-emerald: #10b981;
+      --color-emerald-hover: #059669;
+      --color-emerald-glow: rgba(16, 185, 129, 0.35);
+      
+      --color-gold: #f59e0b;
+      --color-gold-hover: #d97706;
+      --color-gold-glow: rgba(245, 158, 11, 0.25);
+      
+      --color-purple: #8b5cf6;
+      --color-purple-glow: rgba(139, 92, 246, 0.3);
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #64748b;
+      
+      /* Fonts */
+      --font-title: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+      
+      /* Layout */
+      --container-width: 1200px;
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --border-radius-lg: 16px;
+      --border-radius-md: 8px;
+    }
+
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    body {
+      position: relative;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Background Elements */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 600px;
+      background: radial-gradient(circle at 50% -20%, var(--color-purple-glow), transparent 60%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      top: 800px;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--color-emerald-glow), transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+      filter: blur(80px);
+    }
+
+    .glow-ambient {
+      position: absolute;
+      top: 1800px;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--color-gold-glow), transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+      filter: blur(80px);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: var(--font-title);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      color: var(--text-secondary);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 30%, var(--color-gold) 70%, var(--color-emerald));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-emerald {
+      background: linear-gradient(135deg, #fff 40%, var(--color-emerald) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Layout Containers */
+    .container {
+      max-width: var(--container-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Sticky Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-glass);
+      height: 70px;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-title);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-emerald));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--bg-primary);
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      transition: var(--transition-smooth);
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-nav {
+      background: linear-gradient(135deg, var(--color-emerald), var(--color-emerald-hover));
+      color: var(--bg-primary);
+      padding: 8px 16px;
+      border-radius: var(--border-radius-md);
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 12px var(--color-emerald-glow);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--color-emerald-glow);
+      filter: brightness(1.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding-top: 150px;
+      padding-bottom: 80px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .badge {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--color-gold);
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-pulse {
+      width: 8px;
+      height: 8px;
+      background-color: var(--color-gold);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+        box-shadow: 0 0 8px var(--color-gold);
+      }
+      100% {
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
+    }
+
+    .hero-title {
+      font-size: 56px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      font-weight: 800;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      max-width: 580px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-emerald), var(--color-emerald-hover));
+      color: var(--bg-primary);
+      padding: 14px 28px;
+      border-radius: var(--border-radius-md);
+      font-size: 16px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px var(--color-emerald-glow);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px var(--color-emerald-glow);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-glass);
+      color: var(--text-primary);
+      padding: 14px 28px;
+      border-radius: var(--border-radius-md);
+      font-size: 16px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .hero-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-image-wrapper {
+      position: relative;
+      border-radius: var(--border-radius-lg);
+      padding: 8px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(16, 185, 129, 0.2));
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: calc(var(--border-radius-lg) - 6px);
+      display: block;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Stats Ribbon */
+    .stats-ribbon {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-glass);
+      border-bottom: 1px solid var(--border-glass);
+      padding: 24px 0;
+      margin-bottom: 80px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat-item h3 {
+      font-size: 28px;
+      color: var(--color-gold);
+      margin-bottom: 4px;
+    }
+
+    .stat-item p {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Feature Cards Section */
+    .section-title-wrapper {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      color: var(--color-emerald);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features {
+      padding: 80px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .feature-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--border-radius-lg);
+      padding: 36px;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, transparent);
+      transition: var(--transition-smooth);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-card:hover::before {
+      background: linear-gradient(90deg, var(--color-gold), var(--color-emerald));
+    }
+
+    .feature-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--border-radius-md);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 20px;
+      transition: var(--transition-smooth);
+    }
+
+    .feature-card:hover .feature-icon-wrapper {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.3);
+      color: var(--color-gold);
+    }
+
+    .feature-card.emerald-hover:hover .feature-icon-wrapper {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: var(--color-emerald);
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* Commands Section */
+    .commands-section {
+      padding: 80px 0;
+      background: rgba(10, 11, 16, 0.5);
+    }
+
+    .commands-container {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--border-radius-lg);
+      padding: 40px;
+    }
+
+    .commands-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-glass);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .filter-pill:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+    }
+
+    .filter-pill.active {
+      background: var(--color-emerald);
+      border-color: var(--color-emerald);
+      color: var(--bg-primary);
+      font-weight: 600;
+      box-shadow: 0 4px 12px var(--color-emerald-glow);
+    }
+
+    .search-wrapper {
+      position: relative;
+      min-width: 280px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border-glass);
+      color: var(--text-primary);
+      padding: 10px 16px 10px 40px;
+      border-radius: var(--border-radius-md);
+      font-size: 14px;
+      transition: var(--transition-smooth);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--color-gold);
+      box-shadow: 0 0 10px var(--color-gold-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Command Grid / Table */
+    .commands-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .command-row {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--border-radius-md);
+      padding: 16px 24px;
+      display: grid;
+      grid-template-columns: 180px 1.5fr 1fr;
+      align-items: center;
+      gap: 20px;
+      transition: var(--transition-smooth);
+    }
+
+    .command-row:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: translateX(4px);
+    }
+
+    .command-name {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--color-gold);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .command-name::before {
+      content: "/";
+      color: var(--text-muted);
+    }
+
+    .command-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .command-meta {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .command-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-op {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    .badge-player {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+    }
+
+    .badge-category {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+    }
+
+    .usage-hint {
+      grid-column: 1 / -1;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px dashed var(--border-glass);
+      padding-top: 8px;
+      margin-top: 4px;
+    }
+
+    .usage-hint span {
+      color: var(--color-emerald);
+    }
+
+    /* Config Section */
+    .config-section {
+      padding: 80px 0;
+    }
+
+    .config-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .config-info h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .config-info p {
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+
+    .config-feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .config-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .config-feature-item svg {
+      color: var(--color-emerald);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .config-feature-item p strong {
+      color: var(--text-primary);
+    }
+
+    .config-box {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .config-header {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-glass);
+    }
+
+    .config-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .config-title span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--color-gold);
+    }
+
+    .btn-copy {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-copy:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .btn-copy.copied {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: var(--color-emerald);
+      color: var(--color-emerald);
+    }
+
+    .code-wrapper {
+      position: relative;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+
+    .code-block {
+      margin: 0;
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #d1d5db;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    /* Custom Scrollbar for Code Block */
+    .code-wrapper::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .code-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .code-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .code-wrapper::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Download Section (Bottom CTA) */
+    .download-section {
+      padding: 100px 0;
+      position: relative;
+      text-align: center;
+    }
+
+    .download-card {
+      background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 60px 40px;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .download-card::before {
+      content: "";
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--color-gold-glow), transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .download-card::after {
+      content: "";
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--color-emerald-glow), transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .download-card * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .download-card h2 {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+
+    .download-card p {
+      max-width: 500px;
+      margin: 0 auto 36px auto;
+      font-size: 16px;
+    }
+
+    .download-info {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .download-info span strong {
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    .footer {
+      background: #07080c;
+      border-top: 1px solid var(--border-glass);
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-link:hover {
+      color: var(--text-secondary);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      
+      .hero-content {
+        align-items: center;
+      }
+      
+      .hero-actions {
+        justify-content: center;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .config-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 40px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .command-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 16px;
+      }
+      
+      .command-meta {
+        justify-content: flex-start;
+        margin-top: 4px;
+      }
+      
+      .nav-links {
+        display: none; /* simple hidden navigation for mobile */
+      }
+      
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* Custom code coloring classes simulating basic syntax highlighting */
+    .code-comment { color: #6b7280; font-style: italic; }
+    .code-key { color: #f59e0b; font-weight: 500; }
+    .code-value-string { color: #10b981; }
+    .code-value-num { color: #8b5cf6; }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background glow elements -->
+  <div class="glow-ambient"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="nav">
+    <div class="container navbar-container">
+      <a href="#" class="brand">
+        <div class="brand-icon">E</div>
+        <span>EncomnyEssential Pro</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#commands" class="nav-link">Commands</a></li>
+        <li><a href="#config" class="nav-link">Configuration</a></li>
+        <li><a href="#download" class="btn-nav">Download Pro</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="badge">
+          <span class="badge-pulse"></span>
+          <span>encomnyessentials paid version • Version 1.0.0</span>
+        </div>
+        <h1 class="hero-title">
+          The Ultimate Pro Suite for <br>
+          <span class="gradient-text">Minecraft Server Empires</span>
+        </h1>
+        <p class="hero-description">
+          <strong>encomnyessentials paid version</strong> — The definitive all-in-one Bukkit/Spigot/Paper server expansion. Includes custom infusions, interactive trade systems, anti-cheat economy engines, player order boards, spawner shard marketplaces, custom textures, and over 100+ commands. Zero setup overhead, 100% performance optimization.
+        </p>
+        <div class="hero-actions">
+          <a href="EncomnyEssential.jar" class="btn-primary" download id="hero-download-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Pro JAR (18.3 MB)
+          </a>
+          <a href="#commands" class="btn-secondary">
+            Explore 100+ Commands
+          </a>
+        </div>
+      </div>
+      <div class="hero-image-container">
+        <div class="hero-image-wrapper">
+          <img src="plugin_logo.png" alt="EncomnyEssential Plugin Chest Logo" class="hero-image" width="400" height="400">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Stats ribbon -->
+  <section class="stats-ribbon">
+    <div class="container stats-grid">
+      <div class="stat-item">
+        <h3>100+</h3>
+        <p>Pro Commands</p>
+      </div>
+      <div class="stat-item">
+        <h3>1.21</h3>
+        <p>Native Support</p>
+      </div>
+      <div class="stat-item">
+        <h3>Pro Mode</h3>
+        <p>Items & Infusions</p>
+      </div>
+      <div class="stat-item">
+        <h3>Anti-Cheat</h3>
+        <p>Economy Engine</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title-wrapper">
+        <span class="section-label">Paid Edition Perks</span>
+        <h2 class="section-title">Exclusive Premium Features</h2>
+        <p class="section-subtitle">Unlock advanced gameplay elements, security anti-cheats, and customizable systems for your server.</p>
+      </div>
+      
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 22l5-5"/><circle cx="19.5" cy="4.5" r="2.5"/></svg>
+          </div>
+          <h3>Custom Weapons & Infusions</h3>
+          <p>Equip legendary items, 3x3 amethyst mining tools (/giveamethyst), and purchase keybind infusions (/giveinfuse) that trigger elemental skills.</p>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="feature-card emerald-hover">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/></svg>
+          </div>
+          <h3>Anti-Cheat Economy Engine</h3>
+          <p>Advanced real-time monitoring blocks transaction spam, restricts player transfer velocities, and configures max transfer limits to secure server balances.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+          </div>
+          <h3>Player Order Board GUIs</h3>
+          <p>Allows players to list and claim global open buying orders (/order) to automate item exchanges without manual face-to-face meetups.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card emerald-hover">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          </div>
+          <h3>Spawner Shard Marketplace</h3>
+          <p>Earn unique server shards on player kills (/shards). Redeem them inside the interactive spawner shop (/spawnershop) to acquire mob cages.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Animated Server Branding</h3>
+          <p>Configurable dynamic animated tab headers (/setip), rotating tagline broadcasts, and dynamic player prefix format codes.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card emerald-hover">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Secure GUI Player Trading</h3>
+          <p>Open safe face-to-face item and money exchange GUI overlays (/trade). Features rollback options (/traderollback) for admin investigation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Commands Section -->
+  <section class="commands-section" id="commands">
+    <div class="container">
+      <div class="section-title-wrapper">
+        <span class="section-label">Documentation</span>
+        <h2 class="section-title">Command Reference</h2>
+        <p class="section-subtitle">Explore all 100+ commands available in the Paid Edition. Filter by category or search instantly.</p>
+      </div>
+
+      <div class="commands-container">
+        <!-- Filter Bar -->
+        <div class="commands-filter-bar">
+          <div class="filter-pills">
+            <button class="filter-pill active" data-category="all">All</button>
+            <button class="filter-pill" data-category="economy">Economy</button>
+            <button class="filter-pill" data-category="essentials">Essentials</button>
+            <button class="filter-pill" data-category="combat">Combat</button>
+            <button class="filter-pill" data-category="fun">Fun</button>
+            <button class="filter-pill" data-category="admin">Admin</button>
+          </div>
+          <div class="search-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="command-search" class="search-input" placeholder="Search commands...">
+          </div>
+        </div>
+
+        <!-- Command List (DURABLY POPULATED VIA JS) -->
+        <div class="commands-grid" id="commands-grid">
+          <!-- JS will populate rows here dynamically -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Configuration Section -->
+  <section class="config-section" id="config">
+    <div class="container config-container">
+      <div class="config-info">
+        <span class="section-label">Configuration</span>
+        <h2>Deep Control Dashboard</h2>
+        <p>The Pro Edition configuration features advanced anti-cheat sliders, custom command blacklists for NBT/Console operations, rotating tab-list titles, shard shop valuations, and lobby radius safeguards.</p>
+        
+        <ul class="config-feature-list">
+          <li class="config-feature-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <p><strong>Animated Headers:</strong> Edit the rotate interval, tags, color arrays, and footer lines for custom server styling.</p>
+          </li>
+          <li class="config-feature-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <p><strong>Command Security:</strong> Define blocklist filters for console proxying, NBT entities, and sudo execution limits.</p>
+          </li>
+          <li class="config-feature-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <p><strong>Shard Spawner Values:</strong> Customize mob cage shard costs for Zombie, Skeleton, Enderman, and Blaze cages.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="config-box">
+        <div class="config-header">
+          <div class="config-title">
+            <span></span>
+            config.yml
+          </div>
+          <button class="btn-copy" id="btn-copy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy Code
+          </button>
+        </div>
+        <div class="code-wrapper">
+          <pre class="code-block" id="config-code"><span class="code-comment"># EncomnyEssential Configuration</span>
+
+<span class="code-key">currency-symbol:</span> <span class="code-value-string">"$"</span>
+<span class="code-key">starting-balance:</span> <span class="code-value-num">100.0</span>
+
+<span class="code-key">orders:</span>
+  <span class="code-key">default-amount:</span> <span class="code-value-num">64</span>
+
+<span class="code-key">autosave:</span>
+  <span class="code-key">interval-seconds:</span> <span class="code-value-num">30</span>
+  <span class="code-key">save-on-player-leave:</span> <span class="code-value-num">true</span>
+
+<span class="code-key">lobby:</span>
+  <span class="code-key">teleport-on-join:</span> <span class="code-value-num">true</span>
+  <span class="code-key">radius:</span> <span class="code-value-num">50.0</span>
+
+<span class="code-key">cooldowns:</span>
+  <span class="code-key">spawn-seconds:</span> <span class="code-value-num">20</span>
+  <span class="code-key">rtp-seconds:</span> <span class="code-value-num">15</span>
+  <span class="code-key">tpa-seconds:</span> <span class="code-value-num">15</span>
+
+<span class="code-key">security:</span>
+  <span class="code-key">staff-cases:</span>
+    <span class="code-key">max-stored:</span> <span class="code-value-num">500</span>
+  <span class="code-key">sudo:</span>
+    <span class="code-key">max-command-length:</span> <span class="code-value-num">180</span>
+    <span class="code-key">blocked-command-roots:</span> [op, deop, stop]
+
+<span class="code-key">economy-anticheat:</span>
+  <span class="code-key">enabled:</span> <span class="code-value-num">true</span>
+  <span class="code-key">max-transfer-per-transaction:</span> <span class="code-value-num">100000.0</span>
+  <span class="code-key">max-transfers-per-minute:</span> <span class="code-value-num">20</span>
+
+<span class="code-key">tab-list:</span>
+  <span class="code-key">server-name:</span> <span class="code-value-string">"EncomnyEssential"</span>
+  <span class="code-key">server-subtitle:</span> <span class="code-value-string">"&amp;8⚡ &amp;7Season &amp;61"</span>
+  <span class="code-key">taglines:</span>
+    - <span class="code-value-string">"&amp;6» &amp;7Grind hard, earn big. &amp;6«"</span>
+    - <span class="code-value-string">"&amp;6» &amp;7PvP. &amp;ePROFIT. &amp;cPOWER."</span>
+
+<span class="code-key">shards:</span>
+  <span class="code-key">per-kill:</span> <span class="code-value-num">10</span>
+
+<span class="code-key">spawner-shop:</span>
+  <span class="code-key">items:</span>
+    <span class="code-key">zombie:</span> { <span class="code-key">cost:</span> <span class="code-value-num">100</span> }
+    <span class="code-key">skeleton:</span> { <span class="code-key">cost:</span> <span class="code-value-num">100</span> }
+    <span class="code-key">blaze:</span> { <span class="code-key">cost:</span> <span class="code-value-num">100</span> }</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section class="download-section" id="download">
+    <div class="container">
+      <div class="download-card">
+        <h2>Unleash the Pro Version</h2>
+        <p>Deploy the full paid suite of EncomnyEssential. Expand command limits, protect lobbies, setup custom items, and build a massive economy.</p>
+        
+        <a href="EncomnyEssential.jar" class="btn-primary" download id="main-download-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download EncomnyEssential.jar (Pro)
+        </a>
+
+        <div class="download-info">
+          <span>File size: <strong>18.3 MB</strong></span>
+          <span>Version: <strong>1.0.0</strong></span>
+          <span>Target API: <strong>1.21 Spigot/Paper</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-logo">
+        <div class="brand-icon" style="width: 24px; height: 24px; font-size: 12px; border-radius: 6px;">E</div>
+        <span>EncomnyEssential Pro</span>
+      </div>
+      <div>
+        Created for Minecraft Server Empires
+      </div>
+      <ul class="footer-links">
+        <li>&copy; 2026 encomny</li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Config content string for quick clipboard copy
+    const configText = `# EncomnyEssential Configuration
+
+currency-symbol: "$"
+starting-balance: 100.0
+
+orders:
+  default-amount: 64
+
+autosave:
+  interval-seconds: 30
+  save-on-player-leave: true
+
+lobby:
+  teleport-on-join: true
+  radius: 50.0
+
+cooldowns:
+  spawn-seconds: 20
+  rtp-seconds: 15
+  tpa-seconds: 15
+
+security:
+  staff-cases:
+    max-stored: 500
+  sudo:
+    max-command-length: 180
+    blocked-command-roots: [op, deop, stop]
+
+economy-anticheat:
+  enabled: true
+  max-transfer-per-transaction: 100000.0
+  max-transfers-per-minute: 20
+
+tab-list:
+  server-name: "EncomnyEssential"
+  server-subtitle: "&8⚡ &7Season &61"
+  taglines:
+    - "&6» &7Grind hard, earn big. &6«"
+    - "&6» &7PvP. &ePROFIT. &cPOWER."
+
+shards:
+  per-kill: 10
+
+spawner-shop:
+  items:
+    zombie: { cost: 100 }
+    skeleton: { cost: 100 }
+    blaze: { cost: 100 }`;
+
+    document.getElementById('btn-copy').addEventListener('click', function() {
+      navigator.clipboard.writeText(configText).then(() => {
+        const btn = document.getElementById('btn-copy');
+        const origHtml = btn.innerHTML;
+        btn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Copied!
+        `;
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = origHtml;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        console.error('Could not copy text: ', err);
+      });
+    });
+
+    // 100+ Commands Data Structure
+    const commandsList = [
+      { name: "editdata", category: "admin", desc: "Edit custom persistent data for the block you are looking at.", usage: "/editdata <set|get|list|clear|wipe> ...", op: true },
+      { name: "admincommands", category: "admin", desc: "List all admin/OP commands with explanations.", usage: "/admincommands", op: true },
+      { name: "killmobattheexactblock", category: "admin", desc: "Kill stacked mobs at an exact block, leaving one mob alive.", usage: "/killmobattheexactblock [player]", op: true },
+      { name: "encomnyperms", category: "admin", desc: "View all permissions for a player.", usage: "/encomnyperms <player>", op: true },
+      { name: "encomnykeeper", category: "admin", desc: "Spawn a custom shopkeeper mob.", usage: "/encomnykeeper [mob]", op: true },
+      { name: "givecostum", category: "admin", desc: "Give custom tools, utility items, or custom armor sets and pieces.", usage: "/givecostum <item>", op: true },
+      { name: "givecustom", category: "admin", desc: "Give custom weapons and all custom armor sets with explained item names.", usage: "/givecustom <item>", op: true },
+      { name: "giveinfuse", category: "admin", desc: "Give infuse potions that activate powerful abilities with the F key.", usage: "/giveinfuse <fire|water|earth|wind|lightning|ice|shadow|light|venom|void|all> [amount] [player]", op: true },
+      { name: "infuse", category: "combat", desc: "Change your infuse ability keybind mode.", usage: "/infuse keychange <swap|rightclick|drop|hotbar1-9|y|c|v|b|g|t|u|i|m|n>", op: false },
+      { name: "enchantmore", category: "admin", desc: "Advanced enchant command.", usage: "/enchantmore", op: true },
+      { name: "bal", category: "economy", desc: "Check your or another player's balance.", usage: "/bal [player]", op: false },
+      { name: "setbal", category: "economy", desc: "Set a player's balance.", usage: "/setbal <player> <amount>", op: true },
+      { name: "immortal", category: "admin", desc: "Make a player immortal (cannot go below half a heart).", usage: "/immortal <player>", op: true },
+      { name: "pay", category: "economy", desc: "Pay another player money.", usage: "/pay <player> <amount>", op: false },
+      { name: "sell", category: "economy", desc: "Open the sell GUI to sell ores and ingots.", usage: "/sell", op: false },
+      { name: "setname", category: "admin", desc: "Set a player's display name (tab and chat).", usage: "/setname <player> <newname> or /setname reload", op: true },
+      { name: "setskin", category: "admin", desc: "Set a player's skin to another player's skin.", usage: "/setskin <player> <skinplayer> or /setskin reload", op: true },
+      { name: "shop", category: "economy", desc: "Open the main item shop GUI.", usage: "/shop", op: false },
+      { name: "crateshop", category: "economy", desc: "Open the crate key shop.", usage: "/crateshop", op: false },
+      { name: "setcrate", category: "economy", desc: "Create/update crate location or edit rewards.", usage: "/setcrate <name> <price> | /setcrate edit <name>", op: true },
+      { name: "delcrate", category: "economy", desc: "Delete a crate by name.", usage: "/delcrate <name>", op: true },
+      { name: "givekey", category: "economy", desc: "Give a player keys for a specific crate.", usage: "/givekey <player> <crate> <amount>", op: true },
+      { name: "cratepreview", category: "economy", desc: "Preview rewards for a crate.", usage: "/cratepreview <crate>", op: false },
+      { name: "crateopen", category: "economy", desc: "Open a crate with a key.", usage: "/crateopen <crate>", op: false },
+      { name: "setkeyprice", category: "economy", desc: "Set crate key price.", usage: "/setkeyprice <number>", op: true },
+      { name: "ah", category: "economy", desc: "Open auction house or sell held item.", usage: "/ah [sell <price>]", op: false },
+      { name: "setamount", category: "economy", desc: "Set custom shop item price.", usage: "/setamount <item> <money>", op: true },
+      { name: "setrank", category: "admin", desc: "Set a player's rank text with color codes.", usage: "/setrank <player> <rank-name> <color> or /setrank perms <rank-name>", op: true },
+      { name: "rank", category: "essentials", desc: "Open your rank profile and perks.", usage: "/rank", op: false },
+      { name: "ranks", category: "essentials", desc: "Open your rank profile and perks.", usage: "/ranks", op: false },
+      { name: "givepaper", category: "admin", desc: "Give redeemable rank paper and open rank permissions GUI.", usage: "/givepaper <rank> <color> [amount] [player]", op: true },
+      { name: "announce", category: "admin", desc: "Send a full-screen announcement to all online players.", usage: "/announce <message>", op: true },
+      { name: "tp", category: "essentials", desc: "Teleport to a player or teleport one player to another.", usage: "/tp <player> OR /tp <player> <target>", op: true },
+      { name: "gamode", category: "essentials", desc: "Set your or another player's game mode.", usage: "/gamode <survival|creative|adventure|spectator> [player]", op: true },
+      { name: "fly", category: "essentials", desc: "Toggle flight mode.", usage: "/fly", op: false },
+      { name: "vanish", category: "essentials", desc: "Toggle vanish mode with fake leave/join message.", usage: "/vanish", op: false },
+      { name: "pvpbots", category: "combat", desc: "Spawn a PvP practice bot with difficulty presets.", usage: "/pvpbots <easy|medium|hard>", op: true },
+      { name: "freeze", category: "admin", desc: "Freeze or unfreeze a player in place.", usage: "/freeze <player>", op: true },
+      { name: "invsee", category: "admin", desc: "View another player's inventory.", usage: "/invsee <player>", op: true },
+      { name: "sudo", category: "admin", desc: "Force a player to run a command.", usage: "/sudo <player> <command>", op: true },
+      { name: "sethome", category: "essentials", desc: "Set a home point at your current location.", usage: "/sethome [name]", op: false },
+      { name: "home", category: "essentials", desc: "Teleport to a saved home.", usage: "/home [name]", op: false },
+      { name: "delhome", category: "essentials", desc: "Delete a saved home.", usage: "/delhome <name>", op: false },
+      { name: "homes", category: "essentials", desc: "List all your saved homes.", usage: "/homes", op: false },
+      { name: "coinflip", category: "fun", desc: "Bet coins against another player in a coinflip.", usage: "/coinflip <amount>", op: false },
+      { name: "prank", category: "fun", desc: "Send fake server messages to prank players.", usage: "/prank <type> <player>", op: true },
+      { name: "trade", category: "economy", desc: "Open a safe trade request and GUI with another player.", usage: "/trade <player> | /trade accept <player>", op: false },
+      { name: "settings", category: "essentials", desc: "Open personal toggle settings.", usage: "/settings", op: false },
+      { name: "tpa", category: "essentials", desc: "Request to teleport to another player.", usage: "/tpa <player>", op: false },
+      { name: "tpahere", category: "essentials", desc: "Request another player to teleport to you.", usage: "/tpahere <player>", op: false },
+      { name: "tpaccept", category: "essentials", desc: "Accept a teleport request.", usage: "/tpaccept <player>", op: false },
+      { name: "tpdeny", category: "essentials", desc: "Deny a teleport request.", usage: "/tpdeny <player>", op: false },
+      { name: "setwarp", category: "essentials", desc: "Create or replace a region warp gateway.", usage: "/setwarp <name> <x> <y> <z>", op: true },
+      { name: "warp", category: "essentials", desc: "Teleport to a named warp.", usage: "/warp <name>", op: false },
+      { name: "delwarp", category: "essentials", desc: "Delete a region warp gateway.", usage: "/delwarp <name>", op: true },
+      { name: "warps", category: "essentials", desc: "Open the warp editor GUI.", usage: "/warps", op: true },
+      { name: "traderollback", category: "admin", desc: "View or roll back recent trades for a player.", usage: "/traderollback <player> [index]", op: true },
+      { name: "bounty", category: "combat", desc: "Place a coin bounty on another player.", usage: "/bounty <player> <amount>", op: false },
+      { name: "bounties", category: "combat", desc: "View all active bounties sorted by amount.", usage: "/bounties", op: false },
+      { name: "kit", category: "essentials", desc: "Open the kit GUI, claim kits, list kits, or preview kit.", usage: "/kit [claim|preview|list] [name]", op: false },
+      { name: "kitadmin", category: "admin", desc: "Create, edit, tune, reset, delete, and list kits.", usage: "/kitadmin <create|edit|delete|list> [args...]", op: true },
+      { name: "setspawn", category: "essentials", desc: "Set the spawn location.", usage: "/setspawn", op: true },
+      { name: "spawn", category: "essentials", desc: "Teleport to spawn with 5 second delay.", usage: "/spawn", op: false },
+      { name: "setlobby", category: "essentials", desc: "Set the lobby location.", usage: "/setlobby", op: true },
+      { name: "lobbyencomny", category: "essentials", desc: "Teleport to the lobby instantly.", usage: "/lobbyencomny", op: false },
+      { name: "crash", category: "admin", desc: "Force-close a player's Minecraft client.", usage: "/crash <player>", op: true },
+      { name: "protect", category: "admin", desc: "Protect an area with two corners.", usage: "/protect 1 or /protect 2", op: true },
+      { name: "setpvpzone", category: "combat", desc: "Set a PvP or protect zone (1-4).", usage: "/setpvpzone <1-4>", op: true },
+      { name: "pvpprotect", category: "combat", desc: "Define a PvP-protected zone (no brick break, no entry in combat).", usage: "/pvpprotect 1 or 2", op: true },
+      { name: "repair", category: "essentials", desc: "Repair the item in your hand to full durability.", usage: "/repair", op: false },
+      { name: "discord", category: "essentials", desc: "Get the Discord server link (clickable).", usage: "/discord", op: false },
+      { name: "setdiscord", category: "admin", desc: "Set the Discord server link.", usage: "/setdiscord <link>", op: true },
+      { name: "givemoney", category: "admin", desc: "Give a player a money paper to redeem.", usage: "/givemoney <amount>", op: true },
+      { name: "giveamethyst", category: "admin", desc: "Give a custom amethyst tool with 3x3 mining.", usage: "/giveamethyst <pickaxe|shovel|axe|hoe>", op: true },
+      { name: "commandnbt", category: "admin", desc: "Spawn a clickable command mob that runs a command.", usage: "/commandnbt <mob> <size> <command>", op: true },
+      { name: "setcommandnbt", category: "admin", desc: "Set a command NBT on the entity or block.", usage: "/setcommandnbt <command>", op: true },
+      { name: "killcommandnbt", category: "admin", desc: "Kill/remove a command NBT mob.", usage: "/killcommandnbt <near|all|uuid>", op: true },
+      { name: "advancedtextdisplay", category: "admin", desc: "Spawn a styled text display.", usage: "/advancedtextdisplay [options] <text>", op: true },
+      { name: "withdrawmoney", category: "economy", desc: "Withdraw money from balance as a tradeable paper.", usage: "/withdrawmoney <amount>", op: false },
+      { name: "order", category: "economy", desc: "Create or fulfill player buy orders through a GUI.", usage: "/order", op: false },
+      { name: "spawnershop", category: "economy", desc: "Open the shard-based spawner shop.", usage: "/spawnershop", op: false },
+      { name: "shards", category: "economy", desc: "Check your shards or a player's shards.", usage: "/shards [player]", op: false },
+      { name: "setshards", category: "economy", desc: "Set a player's shards.", usage: "/setshards <player> <amount>", op: true },
+      { name: "giveshards", category: "economy", desc: "Give shards to a player.", usage: "/giveshards <player> <amount>", op: true },
+      { name: "admintools", category: "admin", desc: "Open the admin tools GUI.", usage: "/admintools", op: true },
+      { name: "rtp", category: "essentials", desc: "Open the random teleport GUI and teleport safely.", usage: "/rtp", op: false },
+      { name: "autopick", category: "essentials", desc: "Toggle automatic pickup of mined block drops.", usage: "/autopick [on|off]", op: false },
+      { name: "vault", category: "essentials", desc: "Open your personal vault chest by number.", usage: "/vault [number]", op: false },
+      { name: "unban", category: "admin", desc: "Unban players directly or open unban GUI list.", usage: "/unban [player]", op: true },
+      { name: "staffcases", category: "admin", desc: "Open staff action case history GUI.", usage: "/staffcases", op: true },
+      { name: "admindashboard", category: "admin", desc: "Open single-panel admin dashboard with live server stats.", usage: "/admindashboard", op: true },
+      { name: "console", category: "admin", desc: "Run a command as server console.", usage: "/console <command>", op: true },
+      { name: "checkbase", category: "admin", desc: "Check a player's base with GUI.", usage: "/checkbase <player>", op: true },
+      { name: "setip", category: "admin", desc: "Set the server IP displayed in the tab list.", usage: "/setip <ip>", op: true },
+      { name: "jointp", category: "admin", desc: "Set or clear the location all players are teleported to on join.", usage: "/jointp [x y z]", op: true },
+      { name: "baltop", category: "economy", desc: "View the richest players on the server.", usage: "/baltop [page]", op: false },
+      { name: "enderchest", category: "essentials", desc: "Open your ender chest anywhere.", usage: "/enderchest", op: false },
+      { name: "ec", category: "essentials", desc: "Open your ender chest anywhere (shortcut).", usage: "/ec", op: false },
+      { name: "report", category: "admin", desc: "Report a player to online staff.", usage: "/report <player> <reason>", op: false },
+      { name: "clearitemsfromground", category: "admin", desc: "Clear all dropped items from the ground.", usage: "/clearitemsfromground", op: true },
+      { name: "feed", category: "essentials", desc: "Fill your hunger bar (rank-gated, cooldown).", usage: "/feed", op: false },
+      { name: "heal", category: "essentials", desc: "Restore health and hunger (rank-gated, cooldown).", usage: "/heal", op: false },
+      { name: "help", category: "essentials", desc: "Display all available commands.", usage: "/help", op: false },
+      { name: "backpack", category: "essentials", desc: "Open or upgrade your personal backpack.", usage: "/backpack [upgrade]", op: false },
+      { name: "customenchants", category: "combat", desc: "Open the Custom Enchants (Runes) menu.", usage: "/customenchants", op: false },
+      { name: "whenblock", category: "admin", desc: "Show who placed a block and when.", usage: "/whenblock", op: true },
+      { name: "enablecustomtexture", category: "admin", desc: "Enable or disable custom textures for the plugin.", usage: "/enablecustomtexture <on|off>", op: true },
+      { name: "giveabyssalarmorset", category: "admin", desc: "Gives the full Abyssal Armor set to the player.", usage: "/giveabyssalarmorset", op: true },
+      { name: "morph", category: "fun", desc: "Morph into any Minecraft living mob.", usage: "/morph <mob>", op: true },
+      { name: "unmorph", category: "fun", desc: "Restore your normal player model.", usage: "/unmorph", op: true },
+      { name: "profile", category: "essentials", desc: "View player profile and stats.", usage: "/profile [player]", op: false },
+      { name: "playtime", category: "essentials", desc: "Check how long a player has been online.", usage: "/playtime [player]", op: false }
+    ];
+
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    const commandsGrid = document.getElementById('commands-grid');
+
+    function renderCommands() {
+      commandsGrid.innerHTML = '';
+      
+      const filtered = commandsList.filter(cmd => {
+        const matchesCategory = (activeCategory === 'all' || cmd.category === activeCategory);
+        const matchesSearch = (!searchQuery || 
+                               cmd.name.includes(searchQuery) || 
+                               cmd.desc.toLowerCase().includes(searchQuery));
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        commandsGrid.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px;">
+            No commands match your filters. Try search something else!
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(cmd => {
+        const row = document.createElement('div');
+        row.className = 'command-row';
+        row.innerHTML = `
+          <div class="command-name">${cmd.name}</div>
+          <div class="command-desc">${cmd.desc}</div>
+          <div class="command-meta">
+            <span class="command-badge ${cmd.op ? 'badge-op' : 'badge-player'}">${cmd.op ? 'Admin Only' : 'Player'}</span>
+            <span class="command-badge badge-category">${cmd.category}</span>
+          </div>
+          <div class="usage-hint">Usage: <span>${cmd.usage}</span></div>
+        `;
+        commandsGrid.appendChild(row);
+      });
+    }
+
+    // Command Filter and Search logic
+    const filterPills = document.querySelectorAll('.filter-pill');
+    const searchInput = document.getElementById('command-search');
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeCategory = pill.getAttribute('data-category');
+        renderCommands();
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      renderCommands();
+    });
+
+    // Initial render
+    renderCommands();
+  </script>
+</body>
+</html>

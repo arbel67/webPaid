@@ -1,0 +1,11 @@
+# Ignore common development files but explicitly include the JAR and assets
+node_modules
+.git
+.github
+.gitignore
+vercel.json
+
+# Explicitly ensure the jar and assets are uploaded
+!EncomnyEssential.jar
+!plugin_logo.png
+!index.html
